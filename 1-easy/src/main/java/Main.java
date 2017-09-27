@@ -2,38 +2,67 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
-import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
+
 public class Main {
-  public static void main(String ... args) throws IOException {
-    System.out.println(new Main().execute(args[0]).toString()); 
-  }
-  public StringBuilder execute(String filename) throws IOException {
-    StringBuilder returnValue = new StringBuilder(); 
-    Files.readAllLines(new File(filename).toPath(), Charset.defaultCharset()).forEach(line -> {
-      int[] arr = Arrays.stream(line.split("\\s+")).map(String::trim).mapToInt(Integer::parseInt).toArray();
-      int limit = arr[2];
-      int fizz = arr[0];
-      int buzz = arr[1];
-      List<String> list = new ArrayList<>();
-      for (int i=1; i<=limit; i++) {
-        StringBuilder entry = new StringBuilder();
-        if (i%fizz==0) {
-          entry.append("F");
-        }
-        if (i%buzz==0) {
-          entry.append("B");
-        }
-        if (entry.length()==0) {
-          entry.append(i);
-        }
-        list.add(entry.toString());
-      }
-      returnValue.append(list.stream().collect(Collectors.joining(" ")));
-      returnValue.append(System.getProperty("line.separator"));
-    });
-    return returnValue;
-  }
+	public static void main(String... args) throws IOException {
+		System.out.println(new Main().execute(args[0]));
+	}
+
+	public String execute(String filename) throws IOException {
+		List<String> lineList = Files.readAllLines(new File(filename).toPath(), Charset.defaultCharset());
+		List<List<Result>> listOfResultList = lineList.stream().map(this::toResultList).collect(Collectors.toList());
+		List<String> resultStringList = listOfResultList.stream().map(this::toString).collect(Collectors.toList());
+		return resultStringList.stream().collect(Collectors.joining(System.getProperty("line.separator")));
+	}
+
+	private String toString(List<Result> resultList) {
+		return resultList.stream().map(result -> result.toString()).collect(Collectors.joining(" "));
+	}
+
+	private List<Result> toResultList(String line) {
+		Input input = toInput(line);
+		List<Result> results = new ArrayList<>();
+		for (int i = 1; i <= input.max; i++) {
+			results.add(fizzBuzz(i, input.fizz, input.buzz));
+		}
+		return results;
+	}
+
+	private Result fizzBuzz(int number, int fizz, int buzz) {
+		Result result = new Result();
+		result.fizz = number % fizz == 0;
+		result.buzz = number % buzz == 0;
+		result.number = number;
+		return result;
+	}
+
+	private Input toInput(String str) {
+		List<Integer> list = Arrays.stream(str.split("\\s+")).map(Integer::parseInt).collect(Collectors.toList());
+		Input returnValue = new Input();
+		returnValue.fizz = list.get(0);
+		returnValue.buzz = list.get(1);
+		returnValue.max = list.get(2);
+		return returnValue;
+	}
+
+	private static class Input {
+		int fizz;
+		int buzz;
+		int max;
+	}
+
+	private static class Result {
+		boolean fizz = false;
+		boolean buzz = false;
+		int number;
+
+		@Override
+		public String toString() {
+			return (fizz ? "F" : "") + (buzz ? "B" : "") + (!fizz && !buzz ? number : "");
+		}
+	}
 }
