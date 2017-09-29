@@ -5,7 +5,7 @@
   <groupId>johnlreyes.codeeval</groupId>
   <artifactId>codeeval-java</artifactId>
   <version>0.0.1</version>
-  <packaging>pom</packaging>
+  <packaging>jar</packaging>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <java.version>1.8</java.version>
@@ -54,7 +54,4 @@
       </plugin>
     </plugins>
   </build>
-  <modules>
-    <module>1-easy</module>
-  </modules>
 </project>

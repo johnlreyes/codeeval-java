@@ -1,3 +1,5 @@
+package challenges.easy._001_fizz_buzz;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -8,13 +10,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Main {
+
 	public static void main(String... args) throws IOException {
-		System.out.println(new Main().execute(args[0]));
+		List<String> lineList = Files.readAllLines(new File(args[0]).toPath(), Charset.defaultCharset());
+		System.out.println(new Main().execute(lineList));
 	}
 
-	public String execute(String filename) throws IOException {
-		List<String> lineList = Files.readAllLines(new File(filename).toPath(), Charset.defaultCharset());
-		List<List<Result>> listOfResultList = lineList.stream().map(this::toResultList).collect(Collectors.toList());
+	public String execute(List<String> inputList) throws IOException {
+		List<List<Result>> listOfResultList = inputList.stream().map(this::toResultList).collect(Collectors.toList());
 		List<String> resultStringList = listOfResultList.stream().map(this::toString).collect(Collectors.toList());
 		return resultStringList.stream().collect(Collectors.joining(System.getProperty("line.separator")));
 	}
