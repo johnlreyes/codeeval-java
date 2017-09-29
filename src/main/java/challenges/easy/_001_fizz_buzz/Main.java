@@ -17,17 +17,17 @@ public class Main {
 	}
 
 	public String execute(List<String> inputList) throws IOException {
-		List<List<Result>> listOfResultList = inputList.stream().map(this::toResultList).collect(Collectors.toList());
-		List<String> resultStringList = listOfResultList.stream().map(this::toString).collect(Collectors.toList());
+		List<List<Result>> listOfResultList = inputList.stream().map(this::toInput).map(this::toResultList)
+				.collect(Collectors.toList());
+		List<String> resultStringList = listOfResultList.stream().map(this::resultListToString).collect(Collectors.toList());
 		return resultStringList.stream().collect(Collectors.joining(System.getProperty("line.separator")));
 	}
 
-	private String toString(List<Result> resultList) {
+	private String resultListToString(List<Result> resultList) {
 		return resultList.stream().map(result -> result.toString()).collect(Collectors.joining(" "));
 	}
 
-	private List<Result> toResultList(String line) {
-		Input input = toInput(line);
+	private List<Result> toResultList(Input input) {
 		List<Result> results = new ArrayList<>();
 		for (int i = 1; i <= input.max; i++) {
 			results.add(fizzBuzz(i, input.fizz, input.buzz));
