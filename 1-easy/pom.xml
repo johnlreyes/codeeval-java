@@ -5,9 +5,9 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>johnlreyes.codeeval</groupId>
-    <artifactId>codeeval</artifactId>
+    <artifactId>codeeval-java</artifactId>
     <version>0.0.1</version>
   </parent>
-  <artifactId>codeeval-easy-001-fizz_buzz</artifactId>
+  <artifactId>codeeval-java-easy-001-fizz_buzz</artifactId>
   <packaging>jar</packaging>
 </project>
