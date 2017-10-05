@@ -9,7 +9,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Main {
+import challenges.ExecuteInterface;
+
+public class Main implements ExecuteInterface {
 
 	public static void main(String... args) throws IOException {
 		List<String> lineList = Files.readAllLines(new File(args[0]).toPath(), Charset.defaultCharset());
@@ -19,7 +21,8 @@ public class Main {
 	public String execute(List<String> inputList) throws IOException {
 		List<List<Result>> listOfResultList = inputList.stream().map(this::toInput).map(this::toResultList)
 				.collect(Collectors.toList());
-		List<String> resultStringList = listOfResultList.stream().map(this::resultListToString).collect(Collectors.toList());
+		List<String> resultStringList = listOfResultList.stream().map(this::resultListToString)
+				.collect(Collectors.toList());
 		return resultStringList.stream().collect(Collectors.joining(System.getProperty("line.separator")));
 	}
 

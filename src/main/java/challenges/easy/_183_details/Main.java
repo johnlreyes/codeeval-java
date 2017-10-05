@@ -1,4 +1,4 @@
-package challenges.easy._107_shortest_repetition;
+package challenges.easy._183_details;
 
 import java.io.File;
 import java.nio.charset.Charset;
@@ -20,7 +20,13 @@ public class Main implements ExecuteInterface {
 	}
 
 	private String process(String line) {
-		int nextIndexOfFirstChar = line.indexOf(line.charAt(0), 1);
-		return Integer.toString(nextIndexOfFirstChar == -1 ? line.length() : nextIndexOfFirstChar);
+		int smallest = -1;
+		for (String row : line.split(",")) {
+			int cavities = row.indexOf("Y") - row.lastIndexOf("X") - 1;
+			if (smallest == -1 || cavities < smallest) {
+				smallest = cavities;
+			}
+		}
+		return Integer.toString(smallest);
 	}
 }
